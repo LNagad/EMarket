@@ -18,5 +18,10 @@ namespace EMarket.Controllers
             return View();
         }
 
+        public IActionResult Category()
+        {
+            return RedirectToRoute(new { controller = "Category", action = "Index" });
+        }
+
     }
 }

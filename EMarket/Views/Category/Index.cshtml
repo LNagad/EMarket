@@ -1,0 +1,21 @@
+﻿@using EMarket.Core.Application.ViewModels.Category;
+@model List<CategoryViewModel>
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="col-12 border border-3">
+    <div class="d-flex justify-content-center">
+        @foreach (CategoryViewModel item in Model) {
+            <div class="card">
+                <div class="card-header bg-dark d-flex justify-content-center">
+                    <h4 class="text-white">@item.Name</h4>
+                </div>
+                <div class="card-body">
+                    <p class="p-lg-5">@item.Description</p>
+                    <span class="d-flex justify-content-between">Anuncios: <p>@item.Advertises.Count </p> </span>
+                </div>
+            </div>
+        }
+    </div>
+</div>

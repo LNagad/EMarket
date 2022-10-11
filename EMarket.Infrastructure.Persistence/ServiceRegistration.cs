@@ -1,4 +1,7 @@
-﻿using EMarket.Infrastructure.Persistence.Contexts;
+﻿using EMarket.Core.Application.Interfaces;
+using EMarket.Core.Application.Interfaces.Repositories;
+using EMarket.Infrastructure.Persistence.Contexts;
+using EMarket.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +33,14 @@ namespace EMarket.Infrastructure.Persistence
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 m => m.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
             }
+            #endregion
+
+            #region repositories
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             #endregion
         }
     }

@@ -1,3 +1,4 @@
+using EMarket.Core.Application;
 using EMarket.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddApplicationLayer(builder.Configuration);
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 
 var app = builder.Build();
