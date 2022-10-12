@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace EMarket.Core.Application.Interfaces.Services
 {
-    public interface ICategoryService
+    public interface ICategoryService : IGenericService<SaveCategoryViewModel, CategoryViewModel>
     {
-        Task<List<CategoryViewModel>> GetAllViewModel();
     }
 }

@@ -19,6 +19,26 @@ namespace EMarket.Core.Application.Services
             _categoryRepository = categoryRepository;
         }
 
+
+        public async Task AddAsync(SaveCategoryViewModel vm)
+        {
+            var category = new Category();
+            category.Name = vm.Name;
+            category.Description = vm.Description;
+
+            await _categoryRepository.AddAsync(category);
+        }
+
+        public async Task UpdateAsync(SaveCategoryViewModel vm)
+        {
+            var category = new Category();
+            category.Id = vm.Id;
+            category.Name = vm.Name;
+            category.Description = vm.Description;
+
+            await _categoryRepository.UpdateAsync(category);
+
+        }
         public async Task<List<CategoryViewModel>> GetAllViewModel()
         {
             var categoryList = await _categoryRepository.GetAllWithIncludeAsync(new List<string>  { "Advertises" });
@@ -32,5 +52,28 @@ namespace EMarket.Core.Application.Services
             }).ToList();
             
         }
+
+        public async Task<SaveCategoryViewModel> GetViewModelById(int id)
+        {
+            var categoryFind = await _categoryRepository.GetByIdAsync(id);
+
+            SaveCategoryViewModel category = new();
+            category.Id = categoryFind.Id;
+            category.Name = categoryFind.Name;
+            category.Description = categoryFind.Description;
+            //category.
+
+            return category;
+        }
+
+        public async Task DeleteAsync(SaveCategoryViewModel vm)
+        {
+            var category = new Category();
+            category.Id = vm.Id;
+
+            await _categoryRepository.DeleteAsync(category);
+        }
+
+
     }
 }

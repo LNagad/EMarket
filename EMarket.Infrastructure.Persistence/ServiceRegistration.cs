@@ -38,7 +38,7 @@ namespace EMarket.Infrastructure.Persistence
             #region repositories
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
-
+            services.AddTransient<IAdvertiseRepository, AdvertiseRepository>();
 
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             #endregion
