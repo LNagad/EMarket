@@ -17,7 +17,7 @@ namespace EMarket.Core.Application
 
             #region services
             services.AddTransient<ICategoryService, CategoryService>();
-
+            services.AddTransient<IAdvertisesService, AdvertisesService>();
 
             //services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             #endregion
