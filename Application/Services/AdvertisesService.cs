@@ -1,13 +1,9 @@
 ﻿using EMarket.Core.Application.Interfaces.Repositories;
 using EMarket.Core.Application.Interfaces.Services;
 using EMarket.Core.Application.ViewModels.Advertises;
-using EMarket.Core.Application.ViewModels.Category;
 using EMarket.Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace EMarket.Core.Application.Services
 {
@@ -36,12 +32,19 @@ namespace EMarket.Core.Application.Services
 
         public async Task UpdateAsync(SaveAdvertisesViewModel vm)
         {
-            //var category = new Category();
-            //category.Id = vm.Id;
-            //category.Name = vm.Name;
-            //category.Description = vm.Description;
+            Advertise ad = await _adRepo.GetByIdAsync(vm.Id);
 
-            //await _adRepo.UpdateAsync(category);
+            ad.Id = vm.Id;
+            ad.ProductName = vm.ProductName;
+            ad.Description = vm.Description;
+            ad.ImageUrl = vm.ImageUrl;
+            ad.Price = vm.Price;
+            ad.CategoryId = vm.CategoryId;
+
+            //ad.CategoryId = vm.CategoryId;
+            //ad.UserId = vm.UserId;
+
+            await _adRepo.UpdateAsync(ad);
 
         }
         public async Task<List<AdvertisesViewModel>> GetAllViewModel()
@@ -54,30 +57,33 @@ namespace EMarket.Core.Application.Services
                 Name = ad.ProductName,
                 Description = ad.Description,
                 ImageUrl = ad.ImageUrl,
-                Price = ad.Price
+                Price = ad.Price,
+                Category = ad.Category
             }).ToList();
         }
 
         public async Task<SaveAdvertisesViewModel> GetViewModelById(int id)
         {
-            //var categoryFind = await _adRepo.GetByIdAsync(id);
+            var ad = await _adRepo.GetByIdAsync(id);
 
-            //SaveAdvertisesViewModel category = new();
-            //category.Id = categoryFind.Id;
-            //category.Name = categoryFind.Name;
-            //category.Description = categoryFind.Description;
-            ////category.
+            SaveAdvertisesViewModel adEmpty = new();
 
-            //return category;
-            return null;
+            adEmpty.Id = ad.Id;
+            adEmpty.ProductName = ad.ProductName;
+            adEmpty.Description = ad.Description;
+            adEmpty.ImageUrl = ad.ImageUrl;
+            adEmpty.Price = ad.Price;
+            adEmpty.CategoryId = ad.CategoryId;
+
+            return adEmpty;
         }
 
         public async Task DeleteAsync(SaveAdvertisesViewModel vm)
         {
-            //var category = new Category();
-            //category.Id = vm.Id;
+            Advertise ad = await _adRepo.GetByIdAsync(vm.Id);
+           
 
-            //await _adRepo.DeleteAsync(category);
+            await _adRepo.DeleteAsync(ad);
         }
 
 

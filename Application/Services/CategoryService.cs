@@ -1,12 +1,7 @@
 ﻿using EMarket.Core.Application.Interfaces.Repositories;
 using EMarket.Core.Application.Interfaces.Services;
-using EMarket.Core.Application.ViewModels.Category;
+using EMarket.Core.Application.ViewModels.Categories;
 using EMarket.Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EMarket.Core.Application.Services
 {
@@ -41,7 +36,7 @@ namespace EMarket.Core.Application.Services
         }
         public async Task<List<CategoryViewModel>> GetAllViewModel()
         {
-            var categoryList = await _categoryRepository.GetAllWithIncludeAsync(new List<string>  { "Advertises" });
+            var categoryList = await _categoryRepository.GetAllWithIncludeAsync(new List<string> { "Advertises" });
 
             return categoryList.Select(category => new CategoryViewModel
             {
@@ -50,7 +45,7 @@ namespace EMarket.Core.Application.Services
                 Description = category.Description,
                 Advertises = category.Advertises
             }).ToList();
-            
+
         }
 
         public async Task<SaveCategoryViewModel> GetViewModelById(int id)

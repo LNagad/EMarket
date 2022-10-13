@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EMarket.Core.Application.Services;
-using EMarket.Core.Application.ViewModels.Category;
-using EMarket.Core.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EMarket.Core.Application.ViewModels.Advertises
 {
@@ -28,7 +20,7 @@ namespace EMarket.Core.Application.ViewModels.Advertises
 
         //Id fk
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar a que categoria pertenece el anuncio")]
-        public int CategoryId { get; set; }
-        public int UserId { get; set; }
+        public int? CategoryId { get; set; }
+        public int? UserId { get; set; }
     }
 }
