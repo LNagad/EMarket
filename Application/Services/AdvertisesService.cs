@@ -29,7 +29,7 @@ namespace EMarket.Core.Application.Services
             ad.ImageUrl = vm.ImageUrl;
             ad.Price = vm.Price;
             ad.CategoryId = vm.CategoryId;
-            ad.UserId = 0;
+            ad.UserId = null;
 
             await _adRepo.AddAsync(ad);
         }
@@ -46,17 +46,16 @@ namespace EMarket.Core.Application.Services
         }
         public async Task<List<AdvertisesViewModel>> GetAllViewModel()
         {
-            //var categoryList = await _adRepo.GetAllWithIncludeAsync(new List<string>  { "Advertises" });
+            var adList = await _adRepo.GetAllWithIncludeAsync(new List<string> { "Category" });
 
-            //return categoryList.Select(category => new AdvertisesViewModel
-            //{
-            //    Id = category.Id,
-            //    Name = category.Name,
-            //    Description = category.Description,
-            //    Advertises = category.Advertises
-            //}).ToList();
-
-            return null;
+            return adList.Select(ad => new AdvertisesViewModel
+            {
+                Id = ad.Id,
+                Name = ad.ProductName,
+                Description = ad.Description,
+                ImageUrl = ad.ImageUrl,
+                Price = ad.Price
+            }).ToList();
         }
 
         public async Task<SaveAdvertisesViewModel> GetViewModelById(int id)
