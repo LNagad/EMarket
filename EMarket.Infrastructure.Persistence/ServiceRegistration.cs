@@ -1,17 +1,9 @@
-﻿using EMarket.Core.Application.Interfaces;
-using EMarket.Core.Application.Interfaces.Repositories;
+﻿using EMarket.Core.Application.Interfaces.Repositories;
 using EMarket.Infrastructure.Persistence.Contexts;
 using EMarket.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EMarket.Infrastructure.Persistence
 {
@@ -26,7 +18,7 @@ namespace EMarket.Infrastructure.Persistence
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ApplicationContext>(options => options.UseInMemoryDatabase("ApplicationDb"));
-            } 
+            }
             else
             {
                 services.AddDbContext<ApplicationContext>(options =>

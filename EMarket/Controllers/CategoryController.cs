@@ -1,5 +1,5 @@
 ﻿using EMarket.Core.Application.Interfaces.Services;
-using EMarket.Core.Application.ViewModels.Category;
+using EMarket.Core.Application.ViewModels.Categories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMarket.Controllers
@@ -26,14 +26,14 @@ namespace EMarket.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SaveCategoryViewModel vm)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View("SaveCategory", vm);
             }
 
             await _categoryService.AddAsync(vm);
 
-            return RedirectToRoute(new { controller = "Category", action = "Index"});
+            return RedirectToRoute(new { controller = "Category", action = "Index" });
         }
 
         public async Task<IActionResult> Edit(int Id)

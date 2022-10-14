@@ -1,10 +1,6 @@
-﻿using EMarket.Core.Domain.Entities;
+﻿using EMarket.Core.Domain.Common;
+using EMarket.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EMarket.Infrastructure.Persistence.Contexts
 {
@@ -15,6 +11,27 @@ namespace EMarket.Infrastructure.Persistence.Contexts
         public DbSet<User> Users { get; set; }
         public DbSet<Advertise> Advertises { get; set; }
         public DbSet<Category> Categories { get; set; }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (var entry in ChangeTracker.Entries<AuditableBaseEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.Created = DateTime.Now;
+                        entry.Entity.CreatedBy = "DefaultAppUser";
+                        break;
+
+                    case EntityState.Modified:
+                        entry.Entity.LastModified = DateTime.Now;
+                        entry.Entity.LastModifiedBy = "DefaultAppUser";
+                        break;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,28 +65,28 @@ namespace EMarket.Infrastructure.Persistence.Contexts
 
             #region "tables properties"
 
-                #region Users
+            #region Users
 
-                modelBuilder.Entity<User>()
-                    .Property(p => p.FirstName).IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(p => p.FirstName).IsRequired();
 
-                modelBuilder.Entity<User>()
-                    .Property(p => p.LastName).IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(p => p.LastName).IsRequired();
 
-                modelBuilder.Entity<User>()
-                    .Property(p => p.Email).IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(p => p.Email).IsRequired();
 
-                modelBuilder.Entity<User>()
-                    .Property(p => p.Phone).IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(p => p.Phone).IsRequired();
 
-                modelBuilder.Entity<User>()
-                    .Property(p => p.Username).IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(p => p.Username).IsRequired();
 
-                modelBuilder.Entity<User>()
-                    .Property(p => p.Password).IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(p => p.Password).IsRequired();
             #endregion
 
-                #region Advertises
+            #region Advertises
             modelBuilder.Entity<Advertise>().Property(p => p.ProductName).IsRequired();
 
             modelBuilder.Entity<Advertise>().Property(p => p.Description).IsRequired();
@@ -83,10 +100,10 @@ namespace EMarket.Infrastructure.Persistence.Contexts
 
             #endregion
 
-                #region Categories
-                modelBuilder.Entity<Category>().Property(p => p.Name).IsRequired();
-                modelBuilder.Entity<Category>().Property(p => p.Description).IsRequired();
-                #endregion
+            #region Categories
+            modelBuilder.Entity<Category>().Property(p => p.Name).IsRequired();
+            modelBuilder.Entity<Category>().Property(p => p.Description).IsRequired();
+            #endregion
 
             #endregion
         }

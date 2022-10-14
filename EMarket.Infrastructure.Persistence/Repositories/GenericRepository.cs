@@ -39,9 +39,9 @@ namespace EMarket.Infrastructure.Persistence.Repositories
 
         public virtual async Task<List<Entity>> GetAllWithIncludeAsync(List<String> properties)
         {
-            var query =  _dbContext.Set<Entity>().AsQueryable();
+            var query = _dbContext.Set<Entity>().AsQueryable();
 
-            foreach(var property in properties)
+            foreach (var property in properties)
             {
                 query = query.Include(property);
             }

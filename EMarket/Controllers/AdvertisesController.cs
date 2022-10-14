@@ -1,7 +1,6 @@
 ﻿using EMarket.Core.Application.Interfaces.Services;
 using EMarket.Core.Application.ViewModels.Advertises;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace EMarket.Controllers
 {
@@ -21,25 +20,64 @@ namespace EMarket.Controllers
         }
         public async Task<IActionResult> Create()
         {
-            ViewBag.Categories = await _categoryService.GetAllViewModel();
+            var emptyAd = new SaveAdvertisesViewModel();
+            emptyAd.Categories = await _categoryService.GetAllViewModel();
 
-            return View("SaveAdvertise", new SaveAdvertisesViewModel());
+            return View("SaveAdvertise", emptyAd);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(SaveAdvertisesViewModel vm)
         {
-            ViewBag.Categories = await _categoryService.GetAllViewModel();
 
             if (!ModelState.IsValid)
             {
+                vm.Categories = await _categoryService.GetAllViewModel();
                 return View("SaveAdvertise", vm);
 
             }
 
             await _adService.AddAsync(vm);
 
-            return RedirectToRoute(new { controller="Advertises", action="Index"});
+            return RedirectToRoute(new { controller = "Advertises", action = "Index" });
+        }
+
+        public async Task<IActionResult> Edit(int Id)
+        {
+            
+            var value = await _adService.GetViewModelById(Id);
+            value.Categories = await _categoryService.GetAllViewModel();
+
+            return View("SaveAdvertise", value);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(SaveAdvertisesViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                vm.Categories = await _categoryService.GetAllViewModel();
+                return View("SaveAdvertise", vm);
+            }
+
+            await _adService.UpdateAsync(vm);
+
+            return RedirectToRoute(new { controller = "Advertises", action = "Index" });
+        }
+
+        public async Task<IActionResult> Delete(int Id)
+        {
+            var value = await _adService.GetViewModelById(Id);
+
+            return View("Delete", value);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(SaveAdvertisesViewModel vm)
+        {
+            await _adService.DeleteAsync(vm);
+
+            return RedirectToRoute(new { controller = "Advertises", action = "Index" });
         }
     }
 }

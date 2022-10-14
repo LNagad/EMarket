@@ -20,6 +20,7 @@ namespace EMarket.Core.Application.Services
         public async Task AddAsync(SaveAdvertisesViewModel vm)
         {
             var ad = new Advertise();
+
             ad.ProductName = vm.ProductName;
             ad.Description = vm.Description;
             ad.ImageUrl = vm.ImageUrl;
@@ -34,7 +35,6 @@ namespace EMarket.Core.Application.Services
         {
             Advertise ad = await _adRepo.GetByIdAsync(vm.Id);
 
-            ad.Id = vm.Id;
             ad.ProductName = vm.ProductName;
             ad.Description = vm.Description;
             ad.ImageUrl = vm.ImageUrl;
@@ -58,7 +58,8 @@ namespace EMarket.Core.Application.Services
                 Description = ad.Description,
                 ImageUrl = ad.ImageUrl,
                 Price = ad.Price,
-                Category = ad.Category
+                CategoryId = ad.CategoryId,
+                CategoryName = ad.Category.Name.ToString()
             }).ToList();
         }
 
@@ -82,10 +83,7 @@ namespace EMarket.Core.Application.Services
         {
             Advertise ad = await _adRepo.GetByIdAsync(vm.Id);
            
-
             await _adRepo.DeleteAsync(ad);
         }
-
-
     }
 }

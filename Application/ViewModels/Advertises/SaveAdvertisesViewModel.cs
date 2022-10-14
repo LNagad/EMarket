@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EMarket.Core.Application.ViewModels.Categories;
+using EMarket.Core.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace EMarket.Core.Application.ViewModels.Advertises
 {
@@ -22,5 +24,7 @@ namespace EMarket.Core.Application.ViewModels.Advertises
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar a que categoria pertenece el anuncio")]
         public int? CategoryId { get; set; }
         public int? UserId { get; set; }
+
+        public ICollection<CategoryViewModel>? Categories { get; set; }
     }
 }

@@ -7,52 +7,62 @@
 
 <div class="col-12 d-flex justify-content-center">
     <div class="col-5">
-        <div class="card-header bg-dark d-flex justify-content-center align-items-center">
-            <h4 class="text-white">@(editMode ? $"Editando anuncio: {Model.ProductName}" : "Creando nuevo anuncio")</h4>
-        </div>
-        <div class="card-body">
-            <form method="post" asp-controller="Advertises" asp-action="@(editMode ? "Edit" : "Create")" class="d-flex flex-column align-items-center">
-                <div class="col-9 mb-3">
-                    <label asp-for="ProductName" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" asp-for="ProductName">
-                    <span asp-validation-for="ProductName" class="text-danger"></span>
-                </div>
-                <div class="col-9 mb-3">
-                    <label asp-for="Description" class="form-label">Descripcion</label>
-                    <input type="text" class="form-control" asp-for="Description">
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
+        @if (Model.Categories == null || Model.Categories.Count == 0)
+        {
+            <div class="card-header bg-dark d-flex justify-content-center align-items-center">
+                <h4 class="text-white">No hay categorias disponibles, no se puede crear el anuncio</h4>
+            </div>
+            <a asp-action="Index" asp-controller="Advertises" class="btn btn-secondary d-flex justify-content-center">Volver atras</a>
+        }
+        else
+        {
+            <div class="card-header bg-dark d-flex justify-content-center align-items-center">
+                <h4 class="text-white">@(editMode ? $"Editando anuncio: {Model.ProductName}" : "Creando nuevo anuncio")</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="Advertises" asp-action="@(editMode ? "Edit" : "Create")" class="d-flex flex-column align-items-center">
 
-                <div class="col-9 mb-3">
-                    <label asp-for="ImageUrl" class="form-label">Imagen</label>
-                    <input type="text" class="form-control" asp-for="ImageUrl">
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                </div>
+                    <div class="col-9 mb-3">
+                        <label asp-for="ProductName" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" asp-for="ProductName">
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
 
-                <div class="col-9 mb-3">
-                    <label asp-for="Price" class="form-label">Precio</label>
-                    <input type="number" min="0" step="0.2" class="form-control" asp-for="Price">
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                </div>
+                    <div class="col-9 mb-3">
+                        <label asp-for="Description" class="form-label">Descripcion</label>
+                        <input type="text" class="form-control" asp-for="Description">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
 
-                <div class="col-9 mb-3">
-                    <label asp-for="CategoryId" class="form-label">Categoria del producto</label>
-                    <select asp-for="CategoryId" class="form-select">
+                    <div class="col-9 mb-3">
+                        <label asp-for="ImageUrl" class="form-label">Imagen</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl">
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-9 mb-3">
+                        <label asp-for="Price" class="form-label">Precio</label>
+                        <input type="number" min="0" step="0.2" class="form-control" asp-for="Price">
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-9 mb-3">
+                        <label asp-for="CategoryId" class="form-label">Categoria del producto</label>
+                        <select asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" 
+                            class="form-select">
                             <option value="0" selected>Selecciona una categoria</option>
-                        @foreach(var item in ViewBag.Categories) {
-                            <option value="@item.Id" >@item.Name</option>
-                        }
-                        
-                    </select>
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
-                </div>
-                <input type="text" type="hidden" class="form-control" asp-for="Id">
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
 
-                <div class="col-9 d-flex justify-content-between">
-                    <a asp-action="Index" asp-controller="Advertises" class="btn btn-secondary">Volver atras</a>
-                    <button class="btn btn-success">Guardar</button>
-                </div>
-            </form>
-        </div>
+                    <input type="number" type="hidden" class="form-control" asp-for="Id">
+
+                    <div class="col-9 d-flex justify-content-between">
+                        <a asp-action="Index" asp-controller="Advertises" class="btn btn-secondary">Volver atras</a>
+                        <button class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        }
     </div>
 </div>

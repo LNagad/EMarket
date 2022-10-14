@@ -1,8 +1,75 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using EMarket.Core.Application.ViewModels.Advertises;
+@using EMarket.Core.Application.ViewModels.Categories;
+@model List<AdvertisesViewModel>
+@{
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="col-12">
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-outline-primary " asp-controller="Advertises" asp-action="Create">Crear nuevo anuncio</a>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div class="col-2">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h4>Filtros</h4>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Categorias</h4>
+                    <form method="post" asp-action="Index" asp-controller="Home">
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" value="null" type="radio" name="CategoryId" id="Category-all" />
+                                <label class="form-check-label" for="category-all">Todas</label>
+                            </div>
+                        </div>
+
+                        @foreach (CategoryViewModel category in ViewBag.Categories)
+                        {
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" value="@category.Id" type="radio" name="CategoryId" id="Category-@category.Id" />
+                                    <label class="form-check-label" for="category-@category.Id">@category.Name</label>
+                                </div>
+                            </div>
+                        }
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-9">
+            @if (Model == null || Model.Count == 0)
+            {
+                <div class="card-header bg-dark d-flex justify-content-center align-items-center">
+                    <h4 class="text-white">No hay anuncios creados</h4>
+                </div>
+            }
+            else
+            {
+                @foreach (AdvertisesViewModel item in Model)
+                {
+                    <div class="card col-4">
+                        <div class="card-header bg-dark d-flex justify-content-center">
+                            <h4 class="text-white">@item.Name</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <h6 class="fw-bold" style="position: absolute;top: 55px; right: 5px;">Usuario: <span class="fw-normal"></span></h6>
+                                <img src="@item.ImageUrl" class="w-50 card-img" />
+                            </div>
+
+                            <div class="d-flex flex-column">
+                                <h6 class="">@item.Description</h6>
+                                <h6 class="">$@item.Price</h6>
+                                <h6 class="fw-bold">Categoria: <span class="fw-normal">@item.CategoryName</span></h6>
+                                @*<span class="d-flex justify-content-between">Anuncios: <p>@item.Advertises.Count </p> </span>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
 </div>

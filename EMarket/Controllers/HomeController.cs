@@ -1,21 +1,23 @@
-﻿using EMarket.Models;
+﻿using EMarket.Core.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace EMarket.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IAdvertisesService _adService;
+        private readonly ICategoryService _categoryService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IAdvertisesService adService, ICategoryService categoryService)
         {
-            _logger = logger;
+            _adService = adService;
+            _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int CategoryId)
         {
-            return View();
+            ViewBag.Categories = await _categoryService.GetAllViewModel();
+            return View(await _adService.GetAllViewModel());
         }
 
         public IActionResult Category()
