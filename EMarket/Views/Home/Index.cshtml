@@ -6,18 +6,19 @@
 }
 
 <div class="col-12">
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mb-3">
         <a class="btn btn-outline-primary " asp-controller="Advertises" asp-action="Create">Crear nuevo anuncio</a>
     </div>
     <div class="d-flex justify-content-between">
         <div class="col-2">
             <div class="card">
-                <div class="card-header bg-danger text-white">
+                <div class="card-header bg-dark text-white">
                     <h4>Filtros</h4>
                 </div>
                 <div class="card-body">
                     <h4 class="card-title">Categorias</h4>
                     <form method="post" asp-action="Index" asp-controller="Home">
+
                         <div class="mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" value="null" type="radio" name="CategoryId" id="Category-all" />
@@ -34,15 +35,17 @@
                                 </div>
                             </div>
                         }
+
+                        <button class="btn btn-filtrar" type="submit">Filtrar</button>
                     </form>
                 </div>
             </div>
 
         </div>
-        <div class="col-9">
+        <div class="col-9 d-flex justify-content-evenly flex-wrap">
             @if (Model == null || Model.Count == 0)
             {
-                <div class="card-header bg-dark d-flex justify-content-center align-items-center">
+                <div class="card-header bg-dark d-flex justify-content-center align-items-center w-100">
                     <h4 class="text-white">No hay anuncios creados</h4>
                 </div>
             }
@@ -50,20 +53,24 @@
             {
                 @foreach (AdvertisesViewModel item in Model)
                 {
-                    <div class="card col-4">
-                        <div class="card-header bg-dark d-flex justify-content-center">
-                            <h4 class="text-white">@item.Name</h4>
+                    @*225,218*@
+                    <div class="w-100 d-flex mb-3">
+                        <div class="d-flex align-items-center" style="width: 225px; height: 218px;">
+                            <img src="@item.ImageUrl" class="w-100 card-img;" style=" object-fit: scale-down;" />
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-center">
-                                <h6 class="fw-bold" style="position: absolute;top: 55px; right: 5px;">Usuario: <span class="fw-normal"></span></h6>
-                                <img src="@item.ImageUrl" class="w-50 card-img" />
+                        <div class="w-75 d-flex flex-column justify-content-center">
+                            <div class="d-flex w-100">
+                                <h4 class="text-dark fontAds">@item.Name</h4>
                             </div>
 
-                            <div class="d-flex flex-column">
-                                <h6 class="">@item.Description</h6>
-                                <h6 class="">$@item.Price</h6>
-                                <h6 class="fw-bold">Categoria: <span class="fw-normal">@item.CategoryName</span></h6>
+                            <div class="d-flex flex-column w-100">
+                                <h5 class="fontAds">@item.Description</h5>
+                                <div class="d-flex w-100">
+                                    <span class="fs-6" style="margin-top: 0px !important">$</span>
+                                    <h3>@item.Price</h3>
+                                    </div>
+                                <h5 class="fw-bold"><span class="fw-normal">@item.CategoryName</span></h5>
+                                <h6 class="fw-bold">Usuario: </h6>
                                 @*<span class="d-flex justify-content-between">Anuncios: <p>@item.Advertises.Count </p> </span>*@
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 ﻿using EMarket.Core.Application.Interfaces.Services;
+using EMarket.Core.Application.ViewModels.Advertises;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMarket.Controllers
@@ -14,10 +15,11 @@ namespace EMarket.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index(int CategoryId)
+        public async Task<IActionResult> Index(AdvertisesWithFilters vm)
         {
             ViewBag.Categories = await _categoryService.GetAllViewModel();
-            return View(await _adService.GetAllViewModel());
+
+            return View(await _adService.GetAllViewModelWithFilters(vm));
         }
 
         public IActionResult Category()

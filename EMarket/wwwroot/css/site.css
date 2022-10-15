@@ -1,18 +1,82 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+/* ------ TOP OF THE SITE ------ */
+
+/*header*/
+/* search*/
+.k {
+    border: 3px solid #ff9900;
+}
+.search-div {
+    border-radius: 0.7rem !important;
+    width: 60% !important;
+    height: 80% !important;
+}
+
+.search-div:enabled {}
+
+.search-icon {
+    color: #000;
+    font-size: 18px !important;
+}
+
+.search-btn {
+    width: 3rem !important;
+    background-color: #f5bc66;
+    border-radius: 0rem 0.5rem 0.5rem 0rem !important;
+}
+
+.search-btn:hover {
+    background-color: #ff9900;
+}
+
+.mySearchInput {
+    outline: none;
+    border: 0;
+    border-radius: 0.5rem 0rem 0rem 0.5rem !important;
+}
+
+/*navbar*/
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    font-size: 24px;
+}
+
+/*advertises*/
+
+.fontAds {
+    font-family: Arial;
+    font-weight: 300;
+}
+
+/*filter*/
+
+.btn-filtrar {
+    background-color: #ff9900;
+    color: #000;
+    font-weight: 300;
+    font-family: Arial;
+    letter-spacing: 1px;
+}
+
+.btn-filtrar:hover {
+    background-color: #f5bc66;
 }

@@ -4,6 +4,6 @@ namespace EMarket.Core.Application.Interfaces.Services
 {
     public interface IAdvertisesService : IGenericService<SaveAdvertisesViewModel, AdvertisesViewModel>
     {
-        Task UpdateAsync(SaveAdvertisesViewModel vm);
+        Task<List<AdvertisesViewModel>> GetAllViewModelWithFilters(AdvertisesWithFilters vm);
     }
 }
