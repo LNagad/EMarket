@@ -76,11 +76,20 @@ namespace EMarket.Core.Application.Services
                 Price = ad.Price,
                 CategoryId = ad.CategoryId,
                 CategoryName = ad.Category.Name.ToString()
+
             }).ToList();
 
-            if(vm.CategoryId != null)
+            if (vm.CategoryId != null)
             {
                 listViewModel = listViewModel.Where(ad => ad.CategoryId == vm.CategoryId.Value).ToList();
+
+            } 
+            
+            if (vm.AdvertiseName != null)
+            {
+                //listViewModel = listViewModel.Where(ad => ad.Name == vm.AdvertiseName).ToList();
+
+                listViewModel = listViewModel.Where(p => p.Name.ToLower().Contains(vm.AdvertiseName.ToLower())).ToList();
             }
 
             return listViewModel;

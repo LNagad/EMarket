@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using EMarket.Core.Application.ViewModels.Advertises
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,12 +28,16 @@
                             <a class="nav-link text-white" asp-controller="Category" asp-action="Index">Categorias</a>
                         </li>
                         <div class="d-flex align-items-center ms-3 search-div " style="">
-                            
+
                             <div class="d-flex w-100 h-100">
-                                <input class="form-check h-100 w-100 mySearchInput" />
-                                <button class="btn h-100 d-flex align-items-center search-btn">
-                                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                                </button>
+                                <form class="d-flex w-100 h-100" asp-action="Index" asp-controller="Home">
+
+                                    <input class="form-check h-100 w-100 mySearchInput" value="" name="AdvertiseName" />
+
+                                    <button class="btn h-100 d-flex align-items-center search-btn" type="submit">
+                                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </ul>

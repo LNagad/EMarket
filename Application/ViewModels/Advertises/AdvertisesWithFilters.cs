@@ -9,5 +9,7 @@ namespace EMarket.Core.Application.ViewModels.Advertises
     public class AdvertisesWithFilters
     {
         public int? CategoryId { get; set; }
+
+        public string? AdvertiseName { get; set; }
     }
 }
