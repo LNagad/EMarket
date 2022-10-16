@@ -1,17 +1,25 @@
-﻿using EMarket.Core.Application.Interfaces.Repositories;
+﻿using EMarket.Core.Application.Helpers;
+using EMarket.Core.Application.Interfaces.Repositories;
 using EMarket.Core.Application.Interfaces.Services;
 using EMarket.Core.Application.ViewModels.Categories;
+using EMarket.Core.Application.ViewModels.Users;
 using EMarket.Core.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace EMarket.Core.Application.Services
 {
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserViewModel _userViewModel;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+
+        public CategoryService(ICategoryRepository categoryRepository, IHttpContextAccessor httpContextAccessor)
         {
             _categoryRepository = categoryRepository;
+            _httpContextAccessor = httpContextAccessor;
+            _userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("USER");
         }
 
 
@@ -43,7 +51,8 @@ namespace EMarket.Core.Application.Services
                 Id = category.Id,
                 Name = category.Name,
                 Description = category.Description,
-                Advertises = category.Advertises
+                Advertises = category.Advertises,
+                ProductsQuantity = category.Advertises.Where(p => p.UserId == _userViewModel.Id).Count()
             }).ToList();
 
         }

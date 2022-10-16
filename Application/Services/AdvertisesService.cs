@@ -1,7 +1,10 @@
-﻿using EMarket.Core.Application.Interfaces.Repositories;
+﻿using EMarket.Core.Application.Helpers;
+using EMarket.Core.Application.Interfaces.Repositories;
 using EMarket.Core.Application.Interfaces.Services;
 using EMarket.Core.Application.ViewModels.Advertises;
+using EMarket.Core.Application.ViewModels.Users;
 using EMarket.Core.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using System.Xml.Linq;
 
@@ -10,10 +13,14 @@ namespace EMarket.Core.Application.Services
     public class AdvertisesService : IAdvertisesService
     {
         private readonly IAdvertiseRepository _adRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserViewModel _userViewModel;
 
-        public AdvertisesService(IAdvertiseRepository adRepo)
+        public AdvertisesService(IAdvertiseRepository adRepo, IHttpContextAccessor httpContextAccessor)
         {
             _adRepo = adRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("USER");
         }
 
 
@@ -26,7 +33,7 @@ namespace EMarket.Core.Application.Services
             ad.ImageUrl = vm.ImageUrl;
             ad.Price = vm.Price;
             ad.CategoryId = vm.CategoryId;
-            ad.UserId = null;
+            ad.UserId = _userViewModel.Id; // USER
 
             await _adRepo.AddAsync(ad);
         }
@@ -51,7 +58,7 @@ namespace EMarket.Core.Application.Services
         {
             var adList = await _adRepo.GetAllWithIncludeAsync(new List<string> { "Category" });
 
-            return adList.Select(ad => new AdvertisesViewModel
+            return adList.Where(p => p.UserId == _userViewModel.Id).Select(ad => new AdvertisesViewModel
             {
                 Id = ad.Id,
                 Name = ad.ProductName,
@@ -67,24 +74,25 @@ namespace EMarket.Core.Application.Services
         {
             var adList = await _adRepo.GetAllWithIncludeAsync(new List<string> { "Category" });
 
-            List<AdvertisesViewModel> listViewModel = adList.Select(ad => new AdvertisesViewModel
-            {
-                Id = ad.Id,
-                Name = ad.ProductName,
-                Description = ad.Description,
-                ImageUrl = ad.ImageUrl,
-                Price = ad.Price,
-                CategoryId = ad.CategoryId,
-                CategoryName = ad.Category.Name.ToString()
+            List<AdvertisesViewModel> listViewModel = adList.Where(p => p.UserId == _userViewModel.Id)
+                .Select(ad => new AdvertisesViewModel
+                {
+                    Id = ad.Id,
+                    Name = ad.ProductName,
+                    Description = ad.Description,
+                    ImageUrl = ad.ImageUrl,
+                    Price = ad.Price,
+                    CategoryId = ad.CategoryId,
+                    CategoryName = ad.Category.Name.ToString()
 
-            }).ToList();
+                }).ToList();
 
             if (vm.CategoryId != null)
             {
                 listViewModel = listViewModel.Where(ad => ad.CategoryId == vm.CategoryId.Value).ToList();
 
-            } 
-            
+            }
+
             if (vm.AdvertiseName != null)
             {
                 //listViewModel = listViewModel.Where(ad => ad.Name == vm.AdvertiseName).ToList();
@@ -114,7 +122,7 @@ namespace EMarket.Core.Application.Services
         public async Task DeleteAsync(SaveAdvertisesViewModel vm)
         {
             Advertise ad = await _adRepo.GetByIdAsync(vm.Id);
-           
+
             await _adRepo.DeleteAsync(ad);
         }
     }

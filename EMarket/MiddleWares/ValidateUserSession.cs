@@ -18,7 +18,7 @@ namespace EMarket.MiddleWares
 
             //return user != null ? true : false ;
 
-            UserViewModel userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
+            UserViewModel userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("USER");
 
             if (userViewModel == null)
             {
