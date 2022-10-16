@@ -1,0 +1,49 @@
+﻿@using EMarket.Core.Application.ViewModels.Users;
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+
+
+                <form method="post" asp-action="Index" asp-controller="User">
+                 
+                    <div class="divider d-flex align-items-center my-4">
+                        <h2>Iniciar sesion</h2>
+                    </div>
+
+                    @Html.ValidationSummary(false, "", new{@class = "text-danger"})
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input asp-for="Username" class="form-control form-control-lg" placeholder="Enter a valid user" />
+                        <label class="form-label">User</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-3">
+                        <input asp-for="Password" class="form-control form-control-lg" placeholder="Enter password" />
+                        <label class="form-label">Password</label>
+                    </div>
+
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? 
+                            <a asp-action="Register" asp-controller="User" class="link-danger">Register</a>
+                        </p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+   
+</section>

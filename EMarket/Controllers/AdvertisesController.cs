@@ -1,5 +1,6 @@
 ﻿using EMarket.Core.Application.Interfaces.Services;
 using EMarket.Core.Application.ViewModels.Advertises;
+using EMarket.MiddleWares;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMarket.Controllers
@@ -8,14 +9,21 @@ namespace EMarket.Controllers
     {
         private readonly IAdvertisesService _adService;
         private readonly ICategoryService _categoryService;
-        public AdvertisesController(IAdvertisesService adService, ICategoryService categoryService)
+        private readonly ValidateUserSession _validateUserSession;
+        public AdvertisesController(IAdvertisesService adService, ICategoryService categoryService, ValidateUserSession validateUserSession)
         {
             _adService = adService;
             _categoryService = categoryService;
+            _validateUserSession = validateUserSession;
         }
 
         public async Task<IActionResult> Index()
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+
             return View(await _adService.GetAllViewModel());
         }
         public async Task<IActionResult> Create()

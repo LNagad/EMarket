@@ -1,0 +1,68 @@
+﻿@using EMarket.Core.Application.ViewModels.Users;
+@model SaveUserViewModel
+@{
+    bool editMode = Model.Id == 0 ? false : true;
+}
+<div class="col-12 d-flex justify-content-center">
+    <form class="col-5" method="post" asp-action="Register" asp-controller="User">
+        <div class="card">
+            <div class="card-header">
+                <h4>Registrarse</h4>
+            </div>
+            <div class="card-body">
+
+                <!-- Name input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="FirstName" class="form-label" >Nombre</label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <!-- LastName input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="LastName" class="form-label">Apellido</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <!-- Phone input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="Phone" class="form-label">Telefono</label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <!-- Username input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="Username" class="form-label">Username</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <label asp-for="Password" class="form-label" for="registerPassword">Password</label>
+                    <input asp-for="Password"  class="form-control" />
+                    <span asp-validation-for="Password"class="text-danger"></span>
+                </div>
+
+                <!-- Repeat Password input -->
+                <div class="form-outline mb-4">
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <label asp-for="ConfirmPassword" class="form-label">Repeat password</label>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-3">Registrarse</button>
+            </div>
+        </div>
+    </form>
+</div>
