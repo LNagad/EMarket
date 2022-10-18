@@ -74,6 +74,9 @@ namespace EMarket.Controllers
                 return View("SaveAdvertise", vm);
             }
 
+            SaveAdvertisesViewModel adVM = await _adService.GetViewModelById(vm.Id);
+            vm.ImageUrl = UploadFile(vm.File, vm.Id, true, adVM.ImageUrl);
+
             await _adService.UpdateAsync(vm);
 
             return RedirectToRoute(new { controller = "Advertises", action = "Index" });
@@ -89,15 +92,46 @@ namespace EMarket.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(SaveAdvertisesViewModel vm)
         {
+
             await _adService.DeleteAsync(vm);
+            
+            //--------------------Delete Image
+
+            //get directory path
+            string basePath = $"/x/{vm.Id}";
+            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
+
+            //create folder if not exist
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+                foreach(FileInfo file in directoryInfo.GetFiles())
+                {
+                    file.Delete();
+                }
+
+                foreach (DirectoryInfo folder in directoryInfo.GetDirectories())
+                {
+                    folder.Delete(true); // borrado recursivo, borrado completo
+                }
+
+                Directory.Delete(path);
+
+            }
 
             return RedirectToRoute(new { controller = "Advertises", action = "Index" });
         }
 
 
-        private string UploadFile(IFormFile file, int id)
+        private string UploadFile(IFormFile file, int id, bool isEditMode = false, string imageUrl = "")
         {
+            if (isEditMode && file == null)
+            {
+                return imageUrl;
+            }
 
+            //get directory path
             string basePath = $"/x/{id}";
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
@@ -119,6 +153,17 @@ namespace EMarket.Controllers
                 file.CopyTo(stream);
             }
 
+            if (isEditMode)
+            {
+                string[] oldImagePath = imageUrl.Split("/");
+                string oldImageName = oldImagePath[^1];
+                string completeImageOldPath = Path.Combine(path, oldImageName);
+
+                if (System.IO.File.Exists(completeImageOldPath))
+                {
+                    System.IO.File.Delete(completeImageOldPath);
+                }
+            }
           
             return $"{basePath}/{fileName}";
         }
