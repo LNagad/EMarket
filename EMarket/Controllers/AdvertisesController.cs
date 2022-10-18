@@ -45,7 +45,13 @@ namespace EMarket.Controllers
 
             }
 
-            await _adService.AddAsync(vm);
+            SaveAdvertisesViewModel adVM =  await _adService.AddAsync(vm);
+
+            if(adVM != null && adVM.Id != 0)
+            {
+                adVM.ImageUrl = UploadFile(vm.File, adVM.Id);
+                await _adService.UpdateAsync(adVM);
+            }
 
             return RedirectToRoute(new { controller = "Advertises", action = "Index" });
         }
@@ -86,6 +92,35 @@ namespace EMarket.Controllers
             await _adService.DeleteAsync(vm);
 
             return RedirectToRoute(new { controller = "Advertises", action = "Index" });
+        }
+
+
+        private string UploadFile(IFormFile file, int id)
+        {
+
+            string basePath = $"/x/{id}";
+            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            //get file extension
+            Guid guid = Guid.NewGuid();
+            FileInfo fileInfo = new(file.FileName);
+            string fileName = guid + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+
+          
+            return $"{basePath}/{fileName}";
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using EMarket.Core.Application.Helpers;
 using EMarket.Core.Application.Interfaces.Repositories;
 using EMarket.Core.Application.Interfaces.Services;
+using EMarket.Core.Application.ViewModels.Advertises;
 using EMarket.Core.Application.ViewModels.Categories;
 using EMarket.Core.Application.ViewModels.Users;
 using EMarket.Core.Domain.Entities;
@@ -23,18 +24,26 @@ namespace EMarket.Core.Application.Services
         }
 
 
-        public async Task AddAsync(SaveCategoryViewModel vm)
+        public async Task<SaveCategoryViewModel> AddAsync(SaveCategoryViewModel vm)
         {
             var category = new Category();
             category.Name = vm.Name;
             category.Description = vm.Description;
 
-            await _categoryRepository.AddAsync(category);
+            category = await _categoryRepository.AddAsync(category);
+
+            SaveCategoryViewModel categoryVM = new();
+
+            categoryVM.Id = category.Id;
+            categoryVM.Name = category.Name;
+            categoryVM.Description = category.Description;
+
+            return categoryVM;
         }
 
         public async Task UpdateAsync(SaveCategoryViewModel vm)
         {
-            var category = new Category();
+            var category = await _categoryRepository.GetByIdAsync(vm.Id);
             category.Id = vm.Id;
             category.Name = vm.Name;
             category.Description = vm.Description;

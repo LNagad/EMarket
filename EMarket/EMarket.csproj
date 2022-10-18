@@ -21,4 +21,9 @@
     <ProjectReference Include="..\EMarket.Infrastructure.Persistence\EMarket.Infrastructure.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\AdIMG\" />
+    <Folder Include="wwwroot\x\" />
+  </ItemGroup>
+
 </Project>

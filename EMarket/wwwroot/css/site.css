@@ -98,3 +98,13 @@ body {
 .btn-filtrar:hover {
     background-color: #f5bc66;
 }
+
+
+/*login*/
+
+.btn-login {
+    background-color: #f5bc66;
+}
+    .btn-login:hover {
+        background-color: #ff9900;
+    }

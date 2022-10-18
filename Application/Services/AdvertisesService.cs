@@ -6,6 +6,7 @@ using EMarket.Core.Application.ViewModels.Users;
 using EMarket.Core.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Xml.Linq;
 
 namespace EMarket.Core.Application.Services
@@ -24,7 +25,7 @@ namespace EMarket.Core.Application.Services
         }
 
 
-        public async Task AddAsync(SaveAdvertisesViewModel vm)
+        public async Task<SaveAdvertisesViewModel> AddAsync(SaveAdvertisesViewModel vm)
         {
             var ad = new Advertise();
 
@@ -35,7 +36,18 @@ namespace EMarket.Core.Application.Services
             ad.CategoryId = vm.CategoryId;
             ad.UserId = _userViewModel.Id; // USER
 
-            await _adRepo.AddAsync(ad);
+            ad = await _adRepo.AddAsync(ad);
+
+            SaveAdvertisesViewModel adVM = new();
+
+            adVM.Id = ad.Id;
+            adVM.ProductName = ad.ProductName;
+            adVM.Description = ad.Description;
+            adVM.ImageUrl = ad.ImageUrl;
+            adVM.Price = ad.Price;
+            adVM.CategoryId = ad.CategoryId;
+
+            return adVM;
         }
 
         public async Task UpdateAsync(SaveAdvertisesViewModel vm)

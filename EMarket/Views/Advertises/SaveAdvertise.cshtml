@@ -20,29 +20,29 @@
                 <h4 class="text-white">@(editMode ? $"Editando anuncio: {Model.ProductName}" : "Creando nuevo anuncio")</h4>
             </div>
             <div class="card-body">
-                <form method="post" asp-controller="Advertises" asp-action="@(editMode ? "Edit" : "Create")" class="d-flex flex-column align-items-center">
+                <form method="post" enctype="multipart/form-data" asp-controller="Advertises" asp-action="@(editMode ? "Edit" : "Create")" class="d-flex flex-column align-items-center">
 
                     <div class="col-9 mb-3">
                         <label asp-for="ProductName" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" asp-for="ProductName">
+                        <input class="form-control" asp-for="ProductName">
                         <span asp-validation-for="ProductName" class="text-danger"></span>
                     </div>
 
                     <div class="col-9 mb-3">
                         <label asp-for="Description" class="form-label">Descripcion</label>
-                        <input type="text" class="form-control" asp-for="Description">
+                        <textarea class="form-control" asp-for="Description"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
                     <div class="col-9 mb-3">
-                        <label asp-for="ImageUrl" class="form-label">Imagen</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl">
-                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        <label asp-for="File" class="form-label">Imagen</label>
+                        <input required asp-for="File" class="form-control">
+                        <span asp-validation-for="File" class="text-danger"></span>
                     </div>
 
                     <div class="col-9 mb-3">
                         <label asp-for="Price" class="form-label">Precio</label>
-                        <input type="number" min="0" step="0.2" class="form-control" asp-for="Price">
+                        <input type="number" min="0" step="0.25" class="form-control" asp-for="Price">
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
 

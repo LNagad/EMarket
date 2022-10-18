@@ -6,7 +6,7 @@
     {
         Task<List<ViewModel>> GetAllViewModel();
 
-        Task AddAsync(SaveViewModel vm);
+        Task<SaveViewModel> AddAsync(SaveViewModel vm);
         Task UpdateAsync(SaveViewModel vm);
         Task<SaveViewModel> GetViewModelById(int id);
 

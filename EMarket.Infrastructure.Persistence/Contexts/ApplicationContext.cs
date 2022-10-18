@@ -91,7 +91,7 @@ namespace EMarket.Infrastructure.Persistence.Contexts
 
             modelBuilder.Entity<Advertise>().Property(p => p.Description).IsRequired();
 
-            modelBuilder.Entity<Advertise>().Property(p => p.ImageUrl).IsRequired();
+            modelBuilder.Entity<Advertise>().Property(p => p.ImageUrl).IsRequired(false);
 
             modelBuilder.Entity<Advertise>().Property(p => p.Price).IsRequired();
 

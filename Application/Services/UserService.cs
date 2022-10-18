@@ -1,5 +1,6 @@
 ﻿using EMarket.Core.Application.Interfaces.Repositories;
 using EMarket.Core.Application.Interfaces.Services;
+using EMarket.Core.Application.ViewModels.Categories;
 using EMarket.Core.Application.ViewModels.Users;
 using EMarket.Core.Domain.Entities;
 
@@ -38,7 +39,7 @@ namespace EMarket.Core.Application.Services
         }
 
 
-        public async Task AddAsync(SaveUserViewModel vm)
+        public async Task<SaveUserViewModel> AddAsync(SaveUserViewModel vm)
         {
             var user = new User();
             user.Username = vm.Username;
@@ -48,12 +49,23 @@ namespace EMarket.Core.Application.Services
             user.FirstName = vm.FirstName;
             user.LastName = vm.LastName;
 
-            await _userRepository.AddAsync(user);
+            user = await _userRepository.AddAsync(user);
+
+            SaveUserViewModel userVM = new();
+
+            userVM.Username = user.Username;
+            userVM.Password = user.Password;
+            userVM.Email = user.Email;
+            userVM.Phone = user.Phone;
+            userVM.FirstName = user.FirstName;
+            userVM.LastName = user.LastName;
+
+            return userVM;
         }
 
         public async Task UpdateAsync(SaveUserViewModel vm)
         {
-            var user = new User();
+            var user = await _userRepository.GetByIdAsync(vm.Id);
             user.Id = vm.Id;
             user.Username = vm.Username;
             user.Password = vm.Password;

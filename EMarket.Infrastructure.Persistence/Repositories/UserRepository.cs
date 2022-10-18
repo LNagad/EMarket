@@ -16,11 +16,11 @@ namespace EMarket.Infrastructure.Persistence.Repositories
         }
 
 
-        public override async Task AddAsync(User user)
+        public override async Task<User> AddAsync(User user)
         {
             user.Password = PasswordEncryption.ComputeSha256Hash(user.Password);
             //Liskov principle // instead of using the logic we just call our father method   
-            await base.AddAsync(user);
+            return await base.AddAsync(user);
         }
 
         public async Task<User> LoginAsync(LoginViewModel loginVM)
