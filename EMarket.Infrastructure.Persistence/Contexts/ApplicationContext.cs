@@ -9,6 +9,7 @@ namespace EMarket.Infrastructure.Persistence.Contexts
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<AdvertisesPhotos> AdvertisesPhotos { get; set; }
         public DbSet<Advertise> Advertises { get; set; }
         public DbSet<Category> Categories { get; set; }
 
@@ -41,12 +42,14 @@ namespace EMarket.Infrastructure.Persistence.Contexts
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Advertise>().ToTable("Advertises");
             modelBuilder.Entity<Category>().ToTable("Categories");
+            modelBuilder.Entity<AdvertisesPhotos>().ToTable("AdvertisesPhotos");
             #endregion
 
             #region "primary keys"
             modelBuilder.Entity<User>().HasKey(user => user.Id);
             modelBuilder.Entity<Advertise>().HasKey(ad => ad.Id);
             modelBuilder.Entity<Category>().HasKey(category => category.Id);
+            modelBuilder.Entity<AdvertisesPhotos>().HasKey(photo => photo.Id);
             #endregion
 
             #region relationships
@@ -60,6 +63,13 @@ namespace EMarket.Infrastructure.Persistence.Contexts
                 .HasMany<Advertise>(category => category.Advertises)
                 .WithOne(ad => ad.Category)
                 .HasForeignKey(category => category.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Advertise>()
+                .HasOne<AdvertisesPhotos>(ad => ad.AdvertisePhotos)
+                .WithOne(photo => photo.advertise)
+                .HasForeignKey<AdvertisesPhotos>(ad => ad.AdvertiseID)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 

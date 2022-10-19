@@ -1,4 +1,5 @@
 ﻿using EMarket.Core.Application.Interfaces.Services;
+using EMarket.Core.Application.ViewModels.AdvertisePhotos;
 using EMarket.Core.Application.ViewModels.Advertises;
 using EMarket.MiddleWares;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +9,17 @@ namespace EMarket.Controllers
     public class AdvertisesController : Controller
     {
         private readonly IAdvertisesService _adService;
+        private readonly IAdvertisePhotosService _adPhotosService;
         private readonly ICategoryService _categoryService;
         private readonly ValidateUserSession _validateUserSession;
-        public AdvertisesController(IAdvertisesService adService, ICategoryService categoryService, ValidateUserSession validateUserSession)
+
+        public AdvertisesController(IAdvertisesService adService, ICategoryService categoryService,
+            ValidateUserSession validateUserSession, IAdvertisePhotosService adPhotosService)
         {
             _adService = adService;
             _categoryService = categoryService;
             _validateUserSession = validateUserSession;
+            _adPhotosService = adPhotosService;
         }
 
         public async Task<IActionResult> Index()
@@ -26,6 +31,20 @@ namespace EMarket.Controllers
 
             return View(await _adService.GetAllViewModel());
         }
+
+        public async Task<IActionResult> AdvertiseDetails(int id)
+        {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+
+            ViewBag.AdPhotos = await _adPhotosService.GetAsync(id);
+
+            return View(await _adService.GetViewModelById(id));
+        }
+
+
         public async Task<IActionResult> Create()
         {
             var emptyAd = new SaveAdvertisesViewModel();
@@ -45,12 +64,32 @@ namespace EMarket.Controllers
 
             }
 
-            SaveAdvertisesViewModel adVM =  await _adService.AddAsync(vm);
+            SaveAdvertisesViewModel adVM = await _adService.AddAsync(vm);
+            SaveAdPhoto adPhotosVM = new();
 
-            if(adVM != null && adVM.Id != 0)
+            if (adVM != null && adVM.Id != 0)
             {
-                adVM.ImageUrl = UploadFile(vm.File, adVM.Id);
+
+                adVM.ImageUrl = UploadFile(vm.File1, adVM.Id);
+
                 await _adService.UpdateAsync(adVM);
+
+                try
+                {
+                    adPhotosVM.AdvertiseID = adVM.Id;
+                    adPhotosVM.Image1 = UploadFile(vm.File1, adVM.Id);
+                    adPhotosVM.Image2 = UploadFile(vm.File2, adVM.Id);
+                    adPhotosVM.Image3 = UploadFile(vm.File3, adVM.Id);
+
+                    await _adPhotosService.AddAsync(adPhotosVM);
+
+                }
+                catch ( Exception ex)
+                {
+
+                }
+
+
             }
 
             return RedirectToRoute(new { controller = "Advertises", action = "Index" });
@@ -58,7 +97,7 @@ namespace EMarket.Controllers
 
         public async Task<IActionResult> Edit(int Id)
         {
-            
+
             var value = await _adService.GetViewModelById(Id);
             value.Categories = await _categoryService.GetAllViewModel();
 
@@ -75,7 +114,7 @@ namespace EMarket.Controllers
             }
 
             SaveAdvertisesViewModel adVM = await _adService.GetViewModelById(vm.Id);
-            vm.ImageUrl = UploadFile(vm.File, vm.Id, true, adVM.ImageUrl);
+            vm.ImageUrl = UploadFile(vm.File1, vm.Id, true, adVM.ImageUrl);
 
             await _adService.UpdateAsync(vm);
 
@@ -94,7 +133,7 @@ namespace EMarket.Controllers
         {
 
             await _adService.DeleteAsync(vm);
-            
+
             //--------------------Delete Image
 
             //get directory path
@@ -106,7 +145,7 @@ namespace EMarket.Controllers
             {
                 DirectoryInfo directoryInfo = new DirectoryInfo(path);
 
-                foreach(FileInfo file in directoryInfo.GetFiles())
+                foreach (FileInfo file in directoryInfo.GetFiles())
                 {
                     file.Delete();
                 }
@@ -164,7 +203,7 @@ namespace EMarket.Controllers
                     System.IO.File.Delete(completeImageOldPath);
                 }
             }
-          
+
             return $"{basePath}/{fileName}";
         }
     }

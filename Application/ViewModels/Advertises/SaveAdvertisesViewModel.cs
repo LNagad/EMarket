@@ -32,7 +32,15 @@ namespace EMarket.Core.Application.ViewModels.Advertises
         public ICollection<CategoryViewModel>? Categories { get; set; }
 
         [DataType(DataType.Upload)]
-        public IFormFile? File { get; set; }
+        public IFormFile? File1 { get; set; }
+
+
+        [DataType(DataType.Upload)]
+        public IFormFile? File2 { get; set; }
+
+
+        [DataType(DataType.Upload)]
+        public IFormFile? File3 { get; set; }
 
     }
 }

@@ -28,13 +28,21 @@ body {
 .h-custom {
     height: calc(100% - 73px);
 }
+.adImagesCarrousel {
+    width: 100% !important;
+    height: 400px !important;
+    object-fit: contain;
+}
 
 @media (max-width: 450px) {
     .h-custom {
         height: 100%;
     }
 }
-
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
+}
 /* ------ TOP OF THE SITE ------ */
 
 /*header*/

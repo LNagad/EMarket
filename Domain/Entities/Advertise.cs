@@ -17,5 +17,7 @@ namespace EMarket.Core.Domain.Entities
         public Category? Category { get; set; }
         public User? User { get; set; }
 
+        public AdvertisesPhotos? AdvertisePhotos { get; set; }
+
     }
 }
