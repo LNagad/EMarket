@@ -28,6 +28,7 @@ namespace EMarket.Controllers
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
+            ViewBag.Categories = await _categoryService.GetAllViewModel();
 
             return View(await _adService.GetAllViewModel());
         }
@@ -52,8 +53,14 @@ namespace EMarket.Controllers
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
 
+
             var emptyAd = new SaveAdvertisesViewModel();
             emptyAd.Categories = await _categoryService.GetAllViewModel();
+            
+            if(emptyAd.Categories.Count() == 0)
+            {
+                return RedirectToRoute(new { controller = "Category", action = "Index" });
+            }
 
             return View("SaveAdvertise", emptyAd);
         }

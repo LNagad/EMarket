@@ -32,14 +32,15 @@ namespace EMarket.Core.Application.ViewModels.Advertises
         [DataType(DataType.Upload)]
         public IFormFile? File3 { get; set; }
 
+        public DateTime? date { get; set; }
+
+        
 
         //---------------- Id fk ---------------
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar a que categoria pertenece el anuncio")]
         public int? CategoryId { get; set; }
         public int? UserId { get; set; }
-
-
-
+        
 
         //Navigation properties
         public ICollection<CategoryViewModel>? Categories { get; set; }

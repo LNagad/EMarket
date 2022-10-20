@@ -83,6 +83,32 @@ namespace EMarket.Infrastructure.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AdvertisesPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AdvertiseID = table.Column<int>(type: "int", nullable: false),
+                    Image1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdvertisesPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AdvertisesPhotos_Advertises_AdvertiseID",
+                        column: x => x.AdvertiseID,
+                        principalTable: "Advertises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Advertises_CategoryId",
                 table: "Advertises",
@@ -92,10 +118,19 @@ namespace EMarket.Infrastructure.Persistence.Migrations
                 name: "IX_Advertises_UserId",
                 table: "Advertises",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AdvertisesPhotos_AdvertiseID",
+                table: "AdvertisesPhotos",
+                column: "AdvertiseID",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AdvertisesPhotos");
+
             migrationBuilder.DropTable(
                 name: "Advertises");
 

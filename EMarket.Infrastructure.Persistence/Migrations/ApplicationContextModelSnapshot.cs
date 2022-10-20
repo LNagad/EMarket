@@ -73,6 +73,47 @@ namespace EMarket.Infrastructure.Persistence.Migrations
                     b.ToTable("Advertises", (string)null);
                 });
 
+            modelBuilder.Entity("EMarket.Core.Domain.Entities.AdvertisesPhotos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AdvertiseID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertiseID")
+                        .IsUnique();
+
+                    b.ToTable("AdvertisesPhotos", (string)null);
+                });
+
             modelBuilder.Entity("EMarket.Core.Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -171,6 +212,22 @@ namespace EMarket.Infrastructure.Persistence.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EMarket.Core.Domain.Entities.AdvertisesPhotos", b =>
+                {
+                    b.HasOne("EMarket.Core.Domain.Entities.Advertise", "advertise")
+                        .WithOne("AdvertisePhotos")
+                        .HasForeignKey("EMarket.Core.Domain.Entities.AdvertisesPhotos", "AdvertiseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("advertise");
+                });
+
+            modelBuilder.Entity("EMarket.Core.Domain.Entities.Advertise", b =>
+                {
+                    b.Navigation("AdvertisePhotos");
                 });
 
             modelBuilder.Entity("EMarket.Core.Domain.Entities.Category", b =>

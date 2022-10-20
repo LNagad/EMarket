@@ -61,7 +61,7 @@ namespace EMarket.Core.Application.Services
                 Name = category.Name,
                 Description = category.Description,
                 Advertises = category.Advertises,
-                ProductsQuantity = category.Advertises.Where(p => p.UserId == _userViewModel.Id).Count()
+                ProductsQuantity = category.Advertises.Where(p => p.UserId == _userViewModel.Id).Count(),
             }).ToList();
 
         }

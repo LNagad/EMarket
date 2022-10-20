@@ -6,7 +6,15 @@
 
 <div class="col-12">
     <div class="d-flex justify-content-end">
-        <a class="btn btn-outline-primary " asp-controller="Advertises" asp-action="Create">Crear nuevo anuncio</a>
+
+        @if (ViewBag.Categories.Count == 0)
+        {
+            <a class="btn btn-outline-primary " asp-controller="Category" asp-action="Index">Ir a categorias</a>
+        }
+        else
+        {
+            <a class="btn btn-outline-primary " asp-controller="Advertises" asp-action="Create">Crear nuevo anuncio</a>
+        }
     </div>
     <div class="d-flex justify-content-between">
 
@@ -45,6 +53,6 @@
                     </div>
                 }
             }
-       </div>
+        </div>
     </div>
 </div>

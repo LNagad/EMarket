@@ -129,6 +129,7 @@ namespace EMarket.Core.Application.Services
             adEmpty.CategoryId = ad.CategoryId;
             adEmpty.User = ad.User;
             adEmpty.Category = ad.Category;
+            adEmpty.date = ad.Created;
 
             return adEmpty;
         }

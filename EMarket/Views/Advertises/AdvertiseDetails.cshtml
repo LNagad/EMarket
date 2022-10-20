@@ -3,8 +3,10 @@
 @model SaveAdvertisesViewModel
 @{
     ViewData["Title"] = Model.ProductName;
+
+    String fecha = Model.date.Value.ToString("MMMM dd, yyyy");
 }
-<section class="py-5">
+<section>
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6">
@@ -36,19 +38,31 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="small mb-1">@(Model.User.Username == null ? "" : Model.User.Username) </div>
+                <div class="small mb-1">
+                    @(Model.User.FirstName == null ? "" : Model.User.Username) 
+                </div>
                 <h1 class="display-5 fw-bolder">@Model.ProductName</h1>
                 <div class="fs-5 mb-5">
+                <h4 class="display-7 fw-bolder">@Model.Category.Name</h4>
                     <span class="text-decoration-line-through">$@(Model.Price - 100)</span>
                     <span>$@Model.Price</span>
                 </div>
-                <p class="lead">@Model.Category.Name</p>
                 <p class="lead">@Model.Description</p>
-                <div class="d-flex">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem">
+                <p class="lead fw-bold">Fecha: <span class="lead">@fecha </span></p>
+
+                <div class="d-flex flex-column">
+                    <h4 class="display-7 fw-bolder w-100">Datos del vendedor:</h4>
                     <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        Add to cart
+                        <i class="bi-cart-fill me-1">Nombre: </i>
+                        @Model.User.FirstName @Model.User.LastName
+                    </button>
+                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                        <i class="bi-cart-fill me-1">Email: </i>
+                        @Model.User.Email
+                    </button>
+                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                        <i class="bi-cart-fill me-1">Phone number: </i>
+                        @Model.User.Phone
                     </button>
                 </div>
             </div>

@@ -31,14 +31,14 @@
                         @if (user != null)
                         {
                             <li class="nav-item  d-flex align-items-center">
-                                <a class="nav-link text-white" asp-controller="Advertises" asp-action="Index">Anuncios</a>
+                                <a class="nav-link text-white" asp-controller="Advertises" asp-action="Index">Mis anuncios</a>
                             </li>
 
                             <li class="nav-item  d-flex align-items-center">
                                 <a class="nav-link text-white" asp-controller="Category" asp-action="Index">Categorias</a>
                             </li>
                         }
-                        <form class="d-flex w-100 h-100 search-div ms-3" asp-action="Index" asp-controller="Home">
+                        <form class="d-flex h-100 search-div ms-3" asp-action="Index" asp-controller="Home">
                             <input class="form-check h-100 w-100  mySearchInput" value="" name="AdvertiseName" />
 
                             <button class="btn h-100 d-flex align-items-center search-btn" type="submit">

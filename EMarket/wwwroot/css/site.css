@@ -52,8 +52,9 @@ body {
 }
 .search-div {
     border-radius: 0.7rem !important;
-    width: 60% !important;
+    width: 50% !important;
     height: 80% !important;
+    margin-left: 6% !important;
 }
 
 .search-div:enabled {}
