@@ -34,16 +34,16 @@
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
-                    
+
                         <div class="col-9 mb-3">
-                        <label asp-for="File1" class="form-label">Imagen</label>
+                            <label asp-for="File1" class="form-label">Imagen</label>
                             @if (editMode)
                             {
                             <input asp-for="File1" class="form-control">
                             }
                             else
                             {
-                            <input required asp-for="File1" class="form-control">
+                            <input asp-for="File1" class="form-control">
                             }
                         <span asp-validation-for="File1" class="text-danger"></span>
                         </div>
@@ -60,19 +60,32 @@
                         }
                         <span asp-validation-for="File2" class="text-danger"></span>
                     </div>
+
                     <div class="col-9 mb-3">
                         <label asp-for="File3" class="form-label">Imagen</label>
-                        @if (editMode)
-                        {
+                            @if (editMode)
+                            {
                             <input asp-for="File3" class="form-control">
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                             <input asp-for="File3" class="form-control">
-                        }
+                            }
                         <span asp-validation-for="File3" class="text-danger"></span>
-                    </div>
-                    
+                        </div>
+
+                        <div class="col-9 mb-3">
+                        <label asp-for="File4" class="form-label">Imagen</label>
+                            @if (editMode)
+                            {
+                            <input asp-for="File4" class="form-control">
+                            }
+                            else
+                            {
+                            <input asp-for="File4" class="form-control">
+                            }
+                        <span asp-validation-for="File4" class="text-danger"></span>
+                        </div>
 
                     <div class="col-9 mb-3">
                         <label asp-for="Price" class="form-label">Precio</label>

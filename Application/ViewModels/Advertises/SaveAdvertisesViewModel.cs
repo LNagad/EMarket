@@ -32,6 +32,9 @@ namespace EMarket.Core.Application.ViewModels.Advertises
         [DataType(DataType.Upload)]
         public IFormFile? File3 { get; set; }
 
+        [DataType(DataType.Upload)]
+        public IFormFile? File4 { get; set; }
+
         public DateTime? date { get; set; }
 
         

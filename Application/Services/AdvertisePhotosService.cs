@@ -32,6 +32,7 @@ namespace EMarket.Core.Application.Services
             adPhoto.Image1 = vm.Image1;
             adPhoto.Image2 = vm.Image2;
             adPhoto.Image3 = vm.Image3;
+            adPhoto.Image4 = vm.Image4;
             adPhoto.AdvertiseID = vm.AdvertiseID;
 
             await _adRepo.AddAsync(adPhoto);
@@ -86,6 +87,7 @@ namespace EMarket.Core.Application.Services
             myAd.Image1 = adPhotosfounded.Image1 == null ? "" : adPhotosfounded.Image1;
             myAd.Image2 = adPhotosfounded.Image2 == null ? "" : adPhotosfounded.Image2;
             myAd.Image3 = adPhotosfounded.Image3 == null ? "" : adPhotosfounded.Image3;
+            myAd.Image4 = adPhotosfounded.Image4 == null ? "" : adPhotosfounded.Image4;
 
             return myAd;
         }

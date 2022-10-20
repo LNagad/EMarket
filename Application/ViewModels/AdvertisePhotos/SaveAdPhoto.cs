@@ -10,6 +10,7 @@ namespace EMarket.Core.Application.ViewModels.AdvertisePhotos
         public string Image1 { get; set; }
         public string? Image2 { get; set; }
         public string? Image3 { get; set; }
+        public string? Image4 { get; set; }
 
         public Advertise? advertise { get; set; }
     }

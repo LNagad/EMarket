@@ -104,6 +104,11 @@ namespace EMarket.Controllers
                     adPhotosVM.Image3 = UploadFile(vm.File3, adVM.Id);
 
                     }
+                    if (vm.File4 != null)
+                    {
+                        adPhotosVM.Image4 = UploadFile(vm.File4, adVM.Id);
+
+                    }
 
                     await _adPhotosService.AddAsync(adPhotosVM);
 
@@ -154,6 +159,7 @@ namespace EMarket.Controllers
             adPhotosVM.Image1 = UploadFile(vm.File1, vm.Id, true, adPhotosFindedVM.Image1);
             adPhotosVM.Image2 = UploadFile(vm.File2, vm.Id, true, adPhotosFindedVM.Image2);
             adPhotosVM.Image3 = UploadFile(vm.File3, vm.Id, true, adPhotosFindedVM.Image3);
+            adPhotosVM.Image4 = UploadFile(vm.File4, vm.Id, true, adPhotosFindedVM.Image4);
 
             vm.ImageUrl = UploadFile(vm.File1, vm.Id, true, adVM.ImageUrl);
 
