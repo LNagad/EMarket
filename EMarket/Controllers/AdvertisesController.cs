@@ -47,6 +47,11 @@ namespace EMarket.Controllers
 
         public async Task<IActionResult> Create()
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+
             var emptyAd = new SaveAdvertisesViewModel();
             emptyAd.Categories = await _categoryService.GetAllViewModel();
 
@@ -56,6 +61,10 @@ namespace EMarket.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SaveAdvertisesViewModel vm)
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
 
             if (!ModelState.IsValid)
             {
@@ -78,8 +87,16 @@ namespace EMarket.Controllers
                 {
                     adPhotosVM.AdvertiseID = adVM.Id;
                     adPhotosVM.Image1 = UploadFile(vm.File1, adVM.Id);
+                    if(vm.File2 != null)
+                    {
+
                     adPhotosVM.Image2 = UploadFile(vm.File2, adVM.Id);
+                    }
+                    if (vm.File3 != null)
+                    {
                     adPhotosVM.Image3 = UploadFile(vm.File3, adVM.Id);
+
+                    }
 
                     await _adPhotosService.AddAsync(adPhotosVM);
 
@@ -88,8 +105,6 @@ namespace EMarket.Controllers
                 {
 
                 }
-
-
             }
 
             return RedirectToRoute(new { controller = "Advertises", action = "Index" });
@@ -97,6 +112,10 @@ namespace EMarket.Controllers
 
         public async Task<IActionResult> Edit(int Id)
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
 
             var value = await _adService.GetViewModelById(Id);
             value.Categories = await _categoryService.GetAllViewModel();
@@ -107,6 +126,11 @@ namespace EMarket.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(SaveAdvertisesViewModel vm)
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+
             if (!ModelState.IsValid)
             {
                 vm.Categories = await _categoryService.GetAllViewModel();
@@ -114,15 +138,31 @@ namespace EMarket.Controllers
             }
 
             SaveAdvertisesViewModel adVM = await _adService.GetViewModelById(vm.Id);
+
+            AdPhotoViewModel adPhotosFindedVM = await _adPhotosService.GetAsync(vm.Id);
+
+            SaveAdPhoto adPhotosVM = new();
+
+            adPhotosVM.Id = adPhotosFindedVM.Id;
+            adPhotosVM.Image1 = UploadFile(vm.File1, vm.Id, true, adPhotosFindedVM.Image1);
+            adPhotosVM.Image2 = UploadFile(vm.File2, vm.Id, true, adPhotosFindedVM.Image2);
+            adPhotosVM.Image3 = UploadFile(vm.File3, vm.Id, true, adPhotosFindedVM.Image3);
+
             vm.ImageUrl = UploadFile(vm.File1, vm.Id, true, adVM.ImageUrl);
 
             await _adService.UpdateAsync(vm);
+            await _adPhotosService.UpdateAsync(adPhotosVM);
 
             return RedirectToRoute(new { controller = "Advertises", action = "Index" });
         }
 
         public async Task<IActionResult> Delete(int Id)
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+
             var value = await _adService.GetViewModelById(Id);
 
             return View("Delete", value);
@@ -131,6 +171,10 @@ namespace EMarket.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(SaveAdvertisesViewModel vm)
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
 
             await _adService.DeleteAsync(vm);
 
@@ -165,6 +209,7 @@ namespace EMarket.Controllers
 
         private string UploadFile(IFormFile file, int id, bool isEditMode = false, string imageUrl = "")
         {
+
             if (isEditMode && file == null)
             {
                 return imageUrl;

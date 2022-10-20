@@ -36,15 +36,6 @@ namespace EMarket.Core.Application.Services
 
             await _adRepo.AddAsync(adPhoto);
 
-            //category = await _categoryRepository.AddAsync(category);
-
-            //SaveCategoryViewModel categoryVM = new();
-
-            //categoryVM.Id = category.Id;
-            //categoryVM.Name = category.Name;
-            //categoryVM.Description = category.Description;
-
-            //return categoryVM;
         }
 
         public async Task UpdateAsync(SaveAdPhoto vm)
@@ -86,16 +77,15 @@ namespace EMarket.Core.Application.Services
 
         public async Task<AdPhotoViewModel> GetAsync(int advertiseId)
         {
-            var adPhotosfounded = await _adRepo.GetAsync(advertiseId);
+            AdvertisesPhotos adPhotosfounded = await _adRepo.GetAsync(advertiseId);
 
             AdPhotoViewModel myAd = new();
 
             myAd.Id = adPhotosfounded.Id;
-            myAd.advertise = adPhotosfounded.advertise;
             myAd.AdvertiseID = adPhotosfounded.AdvertiseID;
-            myAd.Image1 = adPhotosfounded.Image1;
-            myAd.Image2 = adPhotosfounded.Image2;
-            myAd.Image3 = adPhotosfounded.Image3;
+            myAd.Image1 = adPhotosfounded.Image1 == null ? "" : adPhotosfounded.Image1;
+            myAd.Image2 = adPhotosfounded.Image2 == null ? "" : adPhotosfounded.Image2;
+            myAd.Image3 = adPhotosfounded.Image3 == null ? "" : adPhotosfounded.Image3;
 
             return myAd;
         }

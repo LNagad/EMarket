@@ -68,7 +68,7 @@ namespace EMarket.Core.Application.Services
         }
         public async Task<List<AdvertisesViewModel>> GetAllViewModel()
         {
-            var adList = await _adRepo.GetAllWithIncludeAsync(new List<string> { "Category" });
+            var adList = await _adRepo.GetAllWithIncludeAsync(new List<string> { "Category", "User" });
 
             return adList.Where(p => p.UserId == _userViewModel.Id).Select(ad => new AdvertisesViewModel
             {
@@ -78,15 +78,17 @@ namespace EMarket.Core.Application.Services
                 ImageUrl = ad.ImageUrl,
                 Price = ad.Price,
                 CategoryId = ad.CategoryId,
-                CategoryName = ad.Category.Name.ToString()
+                CategoryName = ad.Category.Name.ToString(),
+                User = ad.User
+
             }).ToList();
         }
 
         public async Task<List<AdvertisesViewModel>> GetAllViewModelWithFilters(AdvertisesWithFilters vm)
         {
-            var adList = await _adRepo.GetAllWithIncludeAsync(new List<string> { "Category" });
+            var adList = await _adRepo.GetAllWithIncludeAsync(new List<string> { "Category", "User" });
 
-            List<AdvertisesViewModel> listViewModel = adList.Where(p => p.UserId == _userViewModel.Id)
+            List<AdvertisesViewModel> listViewModel = adList.Where(p => p.UserId != _userViewModel.Id)
                 .Select(ad => new AdvertisesViewModel
                 {
                     Id = ad.Id,
@@ -95,20 +97,18 @@ namespace EMarket.Core.Application.Services
                     ImageUrl = ad.ImageUrl,
                     Price = ad.Price,
                     CategoryId = ad.CategoryId,
-                    CategoryName = ad.Category.Name.ToString()
+                    CategoryName = ad.Category.Name.ToString(),
+                    User = ad.User
 
                 }).ToList();
 
             if (vm.CategoryId != null)
             {
                 listViewModel = listViewModel.Where(ad => ad.CategoryId == vm.CategoryId.Value).ToList();
-
             }
 
             if (vm.AdvertiseName != null)
             {
-                //listViewModel = listViewModel.Where(ad => ad.Name == vm.AdvertiseName).ToList();
-
                 listViewModel = listViewModel.Where(p => p.Name.ToLower().Contains(vm.AdvertiseName.ToLower())).ToList();
             }
 
@@ -127,6 +127,8 @@ namespace EMarket.Core.Application.Services
             adEmpty.ImageUrl = ad.ImageUrl;
             adEmpty.Price = ad.Price;
             adEmpty.CategoryId = ad.CategoryId;
+            adEmpty.User = ad.User;
+            adEmpty.Category = ad.Category;
 
             return adEmpty;
         }

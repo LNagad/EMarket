@@ -33,6 +33,11 @@ namespace EMarket.Controllers
 
         public IActionResult Category()
         {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+
             return RedirectToRoute(new { controller = "Category", action = "Index" });
         }
 

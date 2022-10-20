@@ -17,7 +17,7 @@ namespace EMarket.Infrastructure.Persistence.Repositories
 
         public async Task<AdvertisesPhotos> GetAsync(int advertiseId)
         {
-            AdvertisesPhotos adPhotos = await _dbContext.Set<AdvertisesPhotos>()
+            AdvertisesPhotos? adPhotos = await _dbContext.Set<AdvertisesPhotos>()
                 .FirstOrDefaultAsync(adPhotos => adPhotos.AdvertiseID == advertiseId);
 
             return adPhotos;

@@ -1,6 +1,7 @@
 ﻿using EMarket.Core.Application.ViewModels.Categories;
 using EMarket.Core.Domain.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 
 namespace EMarket.Core.Application.ViewModels.Advertises
@@ -17,30 +18,35 @@ namespace EMarket.Core.Application.ViewModels.Advertises
         [DataType(DataType.Text)]
         public string Description { get; set; }
 
-        //[Required(ErrorMessage = "Debe colocar una imagen al anuncio")]
-        public string? ImageUrl { get; set; }
-
         [Range(1, int.MaxValue, ErrorMessage = "Debe introducir el precio del anuncio")]
         [DataType(DataType.Currency)]
         public double? Price { get; set; }
+        public string? ImageUrl { get; set; }
+
+        [DataType(DataType.Upload)]
+        public IFormFile? File1 { get; set; }
+
+        [DataType(DataType.Upload)]
+        public IFormFile? File2 { get; set; }
+
+        [DataType(DataType.Upload)]
+        public IFormFile? File3 { get; set; }
+
 
         //---------------- Id fk ---------------
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar a que categoria pertenece el anuncio")]
         public int? CategoryId { get; set; }
         public int? UserId { get; set; }
 
+
+
+
+        //Navigation properties
         public ICollection<CategoryViewModel>? Categories { get; set; }
 
-        [DataType(DataType.Upload)]
-        public IFormFile? File1 { get; set; }
+        public User? User { get; set; }
+        public Category? Category { get; set; }
 
-
-        [DataType(DataType.Upload)]
-        public IFormFile? File2 { get; set; }
-
-
-        [DataType(DataType.Upload)]
-        public IFormFile? File3 { get; set; }
 
     }
 }

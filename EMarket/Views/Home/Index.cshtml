@@ -54,7 +54,7 @@
                 @foreach (AdvertisesViewModel item in Model)
                 {
                     @*225,218*@
-                    <div class="w-100 d-flex mb-3">
+                    <div class="w-100 d-flex mb-5">
                         <div class="d-flex align-items-center me-2" style="width: 225px; height: 218px;">
 
                             <a asp-route-id="@item.Id"  asp-action="AdvertiseDetails" asp-controller="Advertises">
@@ -73,7 +73,7 @@
                                     <h3>@item.Price</h3>
                                     </div>
                                 <h5 class="fw-bold"><span class="fw-normal">@item.CategoryName</span></h5>
-                                <h6 class="fw-bold">Usuario: </h6>
+                                <h6 class="fw-bold">Usuario: @item.User.Username</h6>
                                 @*<span class="d-flex justify-content-between">Anuncios: <p>@item.Advertises.Count </p> </span>*@
                             </div>
                         </div>

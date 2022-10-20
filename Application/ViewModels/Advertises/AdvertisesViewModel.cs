@@ -12,5 +12,7 @@ namespace EMarket.Core.Application.ViewModels.Advertises
 
         public int? CategoryId { get; set; }
         public string CategoryName { get; set; }
+
+        public User User { get; set; }
     }
 }
