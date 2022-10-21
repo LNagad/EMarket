@@ -88,6 +88,8 @@ namespace EMarket.Core.Application.Services
         {
             var adList = await _adRepo.GetAllWithIncludeAsync(new List<string> { "Category", "User" });
 
+            List<AdvertisesViewModel> listX = new();
+
             List<AdvertisesViewModel> listViewModel = adList.Where(p => p.UserId != _userViewModel.Id)
                 .Select(ad => new AdvertisesViewModel
                 {
@@ -104,7 +106,34 @@ namespace EMarket.Core.Application.Services
 
             if (vm.CategoryId != null)
             {
-                listViewModel = listViewModel.Where(ad => ad.CategoryId == vm.CategoryId.Value).ToList();
+                if (vm.CategoryId.Count() != 0)
+                {
+                    foreach (int? item in vm.CategoryId)
+                    {
+
+                        var x = listViewModel.Where(ad => ad.CategoryId == item.Value).ToList();
+
+                        foreach (var itemx in x)
+                        {
+                            AdvertisesViewModel value = new();
+                            value.Id = itemx.Id;
+                            value.Name = itemx.Name;
+                            value.Description = itemx.Description;
+                            value.ImageUrl = itemx.ImageUrl;
+                            value.Price = itemx.Price;
+                            value.CategoryId = itemx.CategoryId;
+                            value.CategoryName = itemx.CategoryName;
+                            value.User = itemx.User;
+
+                            listX.Add(value);
+                        }
+
+                    }
+
+                    return listX;
+                }
+
+               
             }
 
             if (vm.AdvertiseName != null)

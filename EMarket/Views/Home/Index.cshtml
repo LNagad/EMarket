@@ -30,7 +30,7 @@
                         {
                             <div class="mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" value="@category.Id" type="radio" name="CategoryId" id="Category-@category.Id" />
+                                    <input class="form-check-input" value="@category.Id" type="checkbox" name="CategoryId" id="Category-@category.Id" />
                                     <label class="form-check-label" for="category-@category.Id">@category.Name</label>
                                 </div>
                             </div>
@@ -51,33 +51,39 @@
             }
             else
             {
-                @foreach (AdvertisesViewModel item in Model)
+                @foreach (AdvertisesViewModel? item in Model)
                 {
-                    @*225,218*@
-                    <div class="w-100 d-flex mb-5">
-                        <div class="d-flex align-items-center me-2" style="width: 225px; height: 218px;">
+                    if(item.Id != 0) {
 
-                            <a asp-route-id="@item.Id"  asp-action="AdvertiseDetails" asp-controller="Advertises">
-                                <img src="@item.ImageUrl" class="w-100 h-100 card-img;" style=" object-fit: scale-down;" />
-                            </a>
-                        </div>
-                        <div class="w-75 d-flex flex-column justify-content-center">
-                            <div class="d-flex w-100">
-                                <h4 class="text-dark fontAds">@item.Name</h4>
+                        <div class="w-100 d-flex mb-5">
+                            <div class="d-flex align-items-center me-2" style="width: 225px; height: 218px;">
+
+                                <a asp-route-id="@item.Id" asp-action="AdvertiseDetails" asp-controller="Advertises">
+                                    <img src="@item.ImageUrl" class="w-100 h-100 card-img;" style=" object-fit: scale-down;" />
+                                </a>
                             </div>
-
-                            <div class="d-flex flex-column w-100">
-                                <h5 class="fontAds">@item.Description</h5>
+                            <div class="w-75 d-flex flex-column justify-content-center">
                                 <div class="d-flex w-100">
-                                    <span class="fs-6" style="margin-top: 0px !important">$</span>
-                                    <h3>@item.Price</h3>
+                                    <h4 class="text-dark fontAds">@(item.Name == null ? "" : item.Name)</h4>
+                                </div>
+
+                                <div class="d-flex flex-column w-100">
+                                    <h5 class="fontAds">@(item.Description == null ? "" : item.Description)</h5>
+                                    <div class="d-flex w-100">
+                                        <span class="fs-6" style="margin-top: 0px !important">$</span>
+                                        <h3>@item.Price</h3>
                                     </div>
-                                <h5 class="fw-bold"><span class="fw-normal">@item.CategoryName</span></h5>
-                                <h6 class="fw-bold">Usuario: @item.User.Username</h6>
-                                @*<span class="d-flex justify-content-between">Anuncios: <p>@item.Advertises.Count </p> </span>*@
+                                    <h5 class="fw-bold"><span class="fw-normal">@(item.CategoryName == null ? "" : item.CategoryName)</span></h5>
+                                    <h6 class="fw-bold">Usuario: @(item.User == null ? "" : item.User.Username)</h6>
+                                    @*<span class="d-flex justify-content-between">Anuncios: <p>@item.Advertises.Count </p> </span>*@
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    } else{
+                        <div class="card-header bg-dark d-flex justify-content-center align-items-center w-100">
+                            <h4 class="text-white">No hay anuncios creados</h4>
+                        </div>
+                    }
                 }
             }
         </div>

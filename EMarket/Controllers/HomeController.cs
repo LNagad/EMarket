@@ -20,7 +20,7 @@ namespace EMarket.Controllers
 
         public async Task<IActionResult> Index(AdvertisesWithFilters vm)
         {
-
+            AdvertisesWithFilters vmx = new();
             if (!_validateUserSession.HasUser())
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
