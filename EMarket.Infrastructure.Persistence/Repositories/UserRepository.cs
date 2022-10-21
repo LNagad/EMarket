@@ -33,5 +33,14 @@ namespace EMarket.Infrastructure.Persistence.Repositories
 
             return user;
         }
+
+        public async Task<User> ExistUserValidation(UserViewModel userVM)
+        {
+
+            User user = await _dbContext.Set<User>()
+                .FirstOrDefaultAsync(user => user.Username == userVM.Username);
+
+            return user;
+        }
     }
 }

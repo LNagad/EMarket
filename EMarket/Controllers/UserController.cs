@@ -85,6 +85,12 @@ namespace EMarket.Controllers
                 return View(vm);
             }
 
+            if(await _userService.ExistUserValidation(vm))
+            {
+                ModelState.AddModelError("existingUser", "Ese usuario ya esta registrado!");
+                return View(vm);
+            }
+
             await _userService.AddAsync(vm);
 
             return RedirectToRoute(new { controller = "User", action = "Index" });

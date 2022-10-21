@@ -20,7 +20,7 @@ namespace EMarket.Core.Application.ViewModels.Users
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Debe colocar un correo")]
-        [DataType(DataType.Text)]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Debe colocar un telefono")]

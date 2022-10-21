@@ -5,5 +5,6 @@ namespace EMarket.Core.Application.Interfaces.Services
     public interface IUserService : IGenericService<SaveUserViewModel, UserViewModel>
     {
         Task<UserViewModel> Login(LoginViewModel loginVM);
+        Task<bool> ExistUserValidation(SaveUserViewModel vm);
     }
 }

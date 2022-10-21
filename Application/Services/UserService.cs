@@ -3,6 +3,7 @@ using EMarket.Core.Application.Interfaces.Services;
 using EMarket.Core.Application.ViewModels.Categories;
 using EMarket.Core.Application.ViewModels.Users;
 using EMarket.Core.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMarket.Core.Application.Services
 {
@@ -109,7 +110,7 @@ namespace EMarket.Core.Application.Services
             userRequested.Phone = userFinded.Phone;
             userRequested.FirstName = userFinded.FirstName;
             userRequested.LastName = userFinded.LastName;
-            
+
 
             return userRequested;
         }
@@ -122,6 +123,25 @@ namespace EMarket.Core.Application.Services
             await _userRepository.DeleteAsync(user);
         }
 
+        public async Task<bool> ExistUserValidation(SaveUserViewModel vm)
+        {
+            UserViewModel myVM = new();
+            myVM.Username = vm.Username;
+
+            var result = await _userRepository.ExistUserValidation(myVM);
+
+            if (result == null)
+            {
+                return false;
+            }
+
+            if (result.Id != 0)
+            {
+                return true;
+            }
+            
+            return false;
+        }
 
     }
 }
